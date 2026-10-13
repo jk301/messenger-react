@@ -1,6 +1,8 @@
 import { NavLink, Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
+import '../style/nav.css'
+
 function Nav ({ logged, setLogged }) {
     const navigate = useNavigate()
     function handleLogout () {
@@ -17,7 +19,12 @@ function Nav ({ logged, setLogged }) {
     return (
         <nav>
             <Link to='/'><h1>The nav</h1></Link>
-            { logged ? <div className="nav-but"><button onClick={handleLogout} >Logout</button></div>
+            { logged 
+                ? <div className="nav-but">
+                    <Link to='/' >Home</Link>
+                    <Link to='/friends' >Friends</Link>
+                    <button onClick={handleLogout} >Logout</button>
+                </div>
                 : <div className="nav-but">
                     <NavLink to='/register'>Sign up</NavLink>
                     <NavLink to='/login'>Login</NavLink>

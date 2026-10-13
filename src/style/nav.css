@@ -1,0 +1,52 @@
+/* nav.css */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+}
+
+nav h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+nav > a {
+  margin-left: 1rem;
+}
+
+.nav-but {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-but a {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.nav-but a.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.nav-but button {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: none;
+  font-size: 1rem;
+}
+
+.nav-but button:hover {
+  background-color: #333;
+  color: #fff;
+}
