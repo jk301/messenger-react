@@ -23,6 +23,7 @@ function Nav ({ logged, setLogged }) {
                 ? <div className="nav-but">
                     <Link to='/' >Home</Link>
                     <Link to='/friends' >Friends</Link>
+                    <Link to='/search' >Search people</Link>
                     <button onClick={handleLogout} >Logout</button>
                 </div>
                 : <div className="nav-but">
