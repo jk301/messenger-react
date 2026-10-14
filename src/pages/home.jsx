@@ -34,6 +34,7 @@ function Home({ logged }) {
 					const data = await res.json()
 					setAllConv(data.conv)
 					setShowConv(data.conv)
+					console.log(data.conv)
 				} else if (res.status === 401) {
 					setError("Want to Start messaging? sign up & log in.")
 				} else {
@@ -70,7 +71,22 @@ function Home({ logged }) {
 							<div key={conv.id} className="conv-card">
 								{/* // profile image here maybe ? */}
 								<p>"pic"</p>
-								{conv.type === 'Group' ? <p>{conv.name}</p> : <p>{conv.other}</p> }
+								{ conv.type === 'GROUP' 
+									? <div>
+										<h3>{conv.name}</h3> 
+										<p>{conv.messages[0]?.text 
+											? `${conv.messages[0].text}` 
+											: 'No messages'
+										}</p>
+									</div>
+									: <div>
+										<h3>{conv.other}</h3>
+										<p>{conv.messages[0]?.text 
+											? `${conv.messages[0].text}` 
+											: 'No messages'
+										}</p>
+										</div> 
+								}
 							</div>
 						))
 						: <h2>Nothing here</h2>

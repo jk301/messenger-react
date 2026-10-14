@@ -36,9 +36,13 @@
 
 .conv-card {
     display: flex;
+    align-items: center;
     gap: 20px;
     padding: 15px;
-    font-size: 22px;
     border: 2px solid grey;
     width: 100%;
+}
+
+.conv-card > p , .conv-card > h3 {
+    overflow-x: hidden;
 }
