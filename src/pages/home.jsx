@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 
 import '../style/home.css'
+import { Link } from "react-router-dom"
 
 function Home({ logged }) {
 	const [allConv, setAllConv] = useState([])
@@ -68,26 +69,28 @@ function Home({ logged }) {
 				<div className="conv-container">
 					{showConv.length > 0 
 						? showConv.map( conv => (
-							<div key={conv.id} className="conv-card">
-								{/* // profile image here maybe ? */}
-								<p>"pic"</p>
-								{ conv.type === 'GROUP' 
-									? <div>
-										<h3>{conv.name}</h3> 
-										<p>{conv.messages[0]?.text 
-											? `${conv.messages[0].text}` 
-											: 'No messages'
-										}</p>
-									</div>
-									: <div>
-										<h3>{conv.other}</h3>
-										<p>{conv.messages[0]?.text 
-											? `${conv.messages[0].text}` 
-											: 'No messages'
-										}</p>
-										</div> 
-								}
-							</div>
+							<Link to={`conv/${conv.id}`}>
+								<div key={conv.id} className="conv-card">
+									{/* // profile image here maybe ? */}
+									<p>"pic"</p>
+									{ conv.type === 'GROUP' 
+										? <div>
+												<h3>{conv.name}</h3> 
+												<p>{conv.messages[0]?.text 
+													? `${conv.messages[0].text}` 
+													: 'No messages'
+												}</p>
+											</div>
+										: <div>
+												<h3>{conv.other}</h3>
+												<p>{conv.messages[0]?.text 
+													? `${conv.messages[0].text}` 
+													: 'No messages'
+												}</p>
+											</div> 
+										}
+								</div>
+							</Link>
 						))
 						: <h2>Nothing here</h2>
 					}
