@@ -35,6 +35,7 @@ function Friends({ logged }) {
 				if (res.ok) {
 					const data = await res.json()
 					console.log(data.friends)
+                    console.log(data.friends)
                     setFriends(data.friends)
 				} else if (res.status === 401) {
 					setError("Log in to see/add friends.")
@@ -63,6 +64,31 @@ function Friends({ logged }) {
             setRoute('/friends/rejected')
         } else if (filter === 'sent_req_rej') {
             setRoute('/friends/sent/rejected')
+        }
+    }
+
+    async function handleRemove (userId) {
+        try {
+            const token = localStorage.getItem('token')
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/friend/${userId}/remove`, {
+                method: "POST", 
+                'Content-Type': 'application/json',
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            if (res.ok) {
+                const data = await res.json()
+                console.log(data.friends)
+                setFriends(data.friends)
+            } else if (res.status === 401) {
+                setError("Log in to see/add friends.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
         }
     }
 
@@ -120,6 +146,13 @@ function Friends({ logged }) {
                         {/* profile pic here */}
                         <h3>{f.friend.username}</h3> 
                         <p>Status: {f.status}</p>
+                        <div className="card-button-container">
+                            {filter === 'received' && <button>Accept</button>}
+                            {filter === 'received' && <button>Reject</button>}
+                            {filter !== 'sent_req_rej' 
+                                && <button onClick={() => handleRemove(f.reqId)}>Remove</button>
+                            }
+                        </div>
                     </div>
                 ))}
             </div>
