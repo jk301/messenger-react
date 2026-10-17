@@ -1,11 +1,16 @@
 import { useState } from "react"
 
+import '../style/search.css'
+import { useNavigate } from "react-router-dom"
+
 function Search () {
     const [term, setTerm] = useState('')
     const [result, setResult] = useState([])
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
+
+    const navigate = useNavigate()
 
     async function handleSearch (e) {
         e.preventDefault()
@@ -36,7 +41,29 @@ function Search () {
         }
     }
 
-    if (loading) return <div className="status"><h2>Fetching users..</h2></div>
+   async function sendReq (userId) {
+        try {
+            const token = localStorage.getItem('token')
+            const URL = `${import.meta.env.VITE_API_URL}/friend/${userId}/request`
+            const res = await fetch(URL, {
+                method: "POST", 
+                'Content-Type': 'application/json', 
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            if (res.ok) {
+                navigate('/friends')
+            } else if (res.status === 401) {
+                setError("You are not authorized for this request.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not send request :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+   }
+
 	if (error) return <div className="status"><h2>{error}</h2></div>
 
     return (
@@ -51,15 +78,29 @@ function Search () {
                 />
                 <button type="submit">Search</button>
             </form>
-            { result.length > 0 
-                && <div className="result-div">
-                    {result.map( user => (
-                        <div className="" key={user.id}>
-                            <h2>{user.username}</h2>
-                        </div>
-                    ))}
-                </div>
-            }
+            {loading 
+                ? <div className="status"><h2>Fetching users..</h2></div>
+                : result.length > 0 
+                    ? <div className="result-div">
+                        {result.map( user => (
+                            <div className="result-card" key={user.id}>
+                                <h2>{user.username}</h2>
+                                {user.status 
+                                    ? <p>Friend status: {user.status}</p>
+                                    : <button 
+                                        onClick={() => sendReq(user.id)}
+                                    >
+                                        Send friend request
+                                    </button>
+                                }
+                            </div>
+                        ))}
+                    </div>
+
+                    : <div className="result-div">
+                        <h3>searched users will appear here [nothing here]</h3>
+                    </div>
+            }  
         </div>
         
     )
