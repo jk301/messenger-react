@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import '../style/friend.css'
 
@@ -22,6 +23,8 @@ function Friends({ logged }) {
 	const [error, setError] = useState(null)
 	const [loading, setLoading] = useState(true)
 
+    const navigate = useNavigate()
+
 	useEffect(() => {
 		(async () => {
 			try {
@@ -35,7 +38,6 @@ function Friends({ logged }) {
 				if (res.ok) {
 					const data = await res.json()
 					console.log(data.friends)
-                    console.log(data.friends)
                     setFriends(data.friends)
 				} else if (res.status === 401) {
 					setError("Log in to see/add friends.")
@@ -67,19 +69,18 @@ function Friends({ logged }) {
         }
     }
 
-    async function handleRemove (userId) {
+    async function handleFriend (action, userId) {
         try {
+            let url = `${import.meta.env.VITE_API_URL}/friend/${userId}/${action}`
             const token = localStorage.getItem('token')
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/friend/${userId}/remove`, {
+            const res = await fetch( url, {
                 method: "POST", 
                 'Content-Type': 'application/json',
                 headers: { Authorization: `Bearer ${token}` }
             })
 
             if (res.ok) {
-                const data = await res.json()
-                console.log(data.friends)
-                setFriends(data.friends)
+                window.location.reload()
             } else if (res.status === 401) {
                 setError("Log in to see/add friends.")
             } else {
@@ -92,11 +93,39 @@ function Friends({ logged }) {
         }
     }
 
+    async function startConv (userId) {
+        // /conv/direct/create/:userId
+        try {
+            let url = `${import.meta.env.VITE_API_URL}/conv/direct/create/${userId}`
+            const token = localStorage.getItem('token')
+            const res = await fetch( url, {
+                method: "POST", 
+                'Content-Type': 'application/json',
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            if (res.ok) {
+                const data = await res.json()
+                const conv = data.conv
+                console.log(conv)
+                navigate(`/conv/${conv.id}`)
+            } else if (res.status === 401) {
+                setError("Log in to see/add friends.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+        
+    }
+
     if (!logged) {
         return <div className="status">You are not logged in OR unauthorized for this conversation</div>
     }
 
-	if (loading) return <div className="status"><h2>Fetching conversations..</h2></div>
 	if (error) return <div className="status"><h2>{error}</h2></div>
 	
 
@@ -139,7 +168,9 @@ function Friends({ logged }) {
                 }}
             >Rejected requests(sent)</button>
         </div>
-        {friends.length > 0 
+        {loading 
+            ? <div className="status"><h2>Fetching friends..</h2></div>
+            : friends.length > 0 
             ? <div className="card-container">
                 {friends.map( f => (
                     <div key={f.reqId} className="friend-card">
@@ -147,10 +178,16 @@ function Friends({ logged }) {
                         <h3>{f.friend.username}</h3> 
                         <p>Status: {f.status}</p>
                         <div className="card-button-container">
-                            {filter === 'received' && <button>Accept</button>}
-                            {filter === 'received' && <button>Reject</button>}
+                            {filter === 'all' 
+                                && <button onClick={() => startConv(f.friend.id)}>Start chatting</button>
+                            }
+                            {filter === 'received' 
+                                && <button onClick={() => handleFriend('accept', f.reqId)}>Accept</button>
+                            }
+                            {filter === 'received' 
+                                && <button onClick={() => handleFriend('reject', f.reqId)}>Reject</button>}
                             {filter !== 'sent_req_rej' 
-                                && <button onClick={() => handleRemove(f.reqId)}>Remove</button>
+                                && <button onClick={() => handleFriend('remove', f.reqId)}>Remove</button>
                             }
                         </div>
                     </div>
