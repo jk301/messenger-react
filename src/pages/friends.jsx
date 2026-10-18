@@ -9,6 +9,7 @@ import '../style/friend.css'
 // indexRouter.get('/friends/received',  getAllfriendReq)
 // indexRouter.get('/friends/rejected', getFriendsRejected)
 // indexRouter.get('/friends/sent/rejected', getSentRejected)
+
 // indexRouter.post('/friend/:receiverId/request', sendFriendReq)
 // indexRouter.post('/friend/:reqId/accept', acceptReq)
 // indexRouter.post('/friend/:reqId/reject', rejectReq)
@@ -188,15 +189,3 @@ function Friends({ logged }) {
 }
 
 export default Friends
-
-// indexRouter.get('/users/search', searchUsers)
-// indexRouter.get('/friends', getAllFriends)
-// indexRouter.get('/friends/sent', getAllSentReq)
-// indexRouter.get('/friends/received',  getAllfriendReq)
-// indexRouter.get('/friends/rejected', getFriendsRejected)
-// indexRouter.get('/friends/sent/rejected', getSentRejected)
-
-// indexRouter.post('/friend/:receiverId/request', sendFriendReq)
-// indexRouter.post('/friend/:reqId/accept', acceptReq)
-// indexRouter.post('/friend/:reqId/reject', rejectReq)
-// indexRouter.post('/friend/:reqId/remove', removeFriend)
