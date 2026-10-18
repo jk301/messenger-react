@@ -16,7 +16,6 @@ import '../style/friend.css'
 
 function Friends({ logged }) {
     const [filter, setFilter] = useState('all')
-    const [route, setRoute] = useState(`/friends`)
 
     const [friends, setFriends] = useState([])
 
@@ -26,9 +25,24 @@ function Friends({ logged }) {
     const navigate = useNavigate()
 
 	useEffect(() => {
+        function handleRoute () {
+            if (filter === 'all') {
+                return '/friends'
+            } else if (filter === 'sent') {
+                return '/friends/sent'
+            } else if (filter === 'received') {
+                return '/friends/received'
+            } else if (filter === 'rec_req_rej') {
+                return '/friends/rejected'
+            } else if (filter === 'sent_req_rej') {
+                return '/friends/sent/rejected'
+            }
+        }
+
 		(async () => {
 			try {
 				setLoading(true)
+                const route = handleRoute(filter)
 				const token = localStorage.getItem('token')
 				const res = await fetch(`${import.meta.env.VITE_API_URL}${route}`, {
                     'Content-Type': 'application/json',
@@ -53,21 +67,7 @@ function Friends({ logged }) {
 			}
 		})()
 
-	}, [logged, route, filter])
-
-    function handleFilter () {
-        if (filter === 'all') {
-            setRoute('/friends')
-        } else if (filter === 'sent') {
-            setRoute('/friends/sent')
-        } else if (filter === 'received') {
-            setRoute('/friends/received')
-        } else if (filter === 'rec_req_rej') {
-            setRoute('/friends/rejected')
-        } else if (filter === 'sent_req_rej') {
-            setRoute('/friends/sent/rejected')
-        }
-    }
+	}, [logged, filter])
 
     async function handleFriend (action, userId) {
         try {
@@ -133,39 +133,24 @@ function Friends({ logged }) {
     <div className="friends">
         <div className="selector">
             <button 
-                className={filter === 'all' && 'active-selector'}
-                onClick={ () => {
-                    setFilter('all')
-                    handleFilter()
-                }}
+                className={filter === 'all' ? 'active-selector' : ''}
+                onClick={ () => {setFilter('all')}}
             >All Friends</button>
             <button 
-                className={filter === 'sent' && 'active-selector'}
-                onClick={() => {
-                    setFilter('sent')
-                    handleFilter()
-                }} 
+                className={filter === 'sent' ? 'active-selector' : ''}
+                onClick={() => {setFilter('sent')}} 
             >Sent requests</button>
             <button 
-                className={filter === 'received' && 'active-selector'}
-                onClick={() => {
-                    setFilter('received')
-                    handleFilter()
-                }}
+                className={filter === 'received' ? 'active-selector' : ''}
+                onClick={() => {setFilter('received')}}
             >Received requests</button>
             <button 
-                className={filter === 'rec_req_rej' && 'active-selector'}
-                onClick={() => {
-                    setFilter('rec_req_rej')
-                    handleFilter()
-                }}
+                className={filter === 'rec_req_rej' ? 'active-selector' : ''}
+                onClick={() => {setFilter('rec_req_rej')}}
             >Rejected requests(received)</button>
             <button 
-                className={filter === 'sent_req_rej' && 'active-selector'}
-                onClick={() => {
-                    setFilter('sent_req_rej')
-                    handleFilter()
-                }}
+                className={filter === 'sent_req_rej' ? 'active-selector' : ''}
+                onClick={() => {setFilter('sent_req_rej')}}
             >Rejected requests(sent)</button>
         </div>
         {loading 
@@ -185,7 +170,8 @@ function Friends({ logged }) {
                                 && <button onClick={() => handleFriend('accept', f.reqId)}>Accept</button>
                             }
                             {filter === 'received' 
-                                && <button onClick={() => handleFriend('reject', f.reqId)}>Reject</button>}
+                                && <button onClick={() => handleFriend('reject', f.reqId)}>Reject</button>
+                                }
                             {filter !== 'sent_req_rej' 
                                 && <button onClick={() => handleFriend('remove', f.reqId)}>Remove</button>
                             }
