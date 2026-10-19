@@ -98,6 +98,32 @@ function GroupDetail ({ logged }) {
         }
     }
 
+    async function deleteGroup (convId) {
+        // /conv/:groupId
+        try {
+            const token = localStorage.getItem('token')
+            const url = `${import.meta.env.VITE_API_URL}/conv/${convId}`
+            const res = await fetch( url, {
+                method: "DELETE", 
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                    "Content-Type": "application/json"
+                }
+            })
+            if (res.ok) {
+                navigate(`/`)
+            } else if (res.status === 401) {
+                setError("You are not authorized for action.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+    }
+
 
     if (!logged) {
         return <div className="status">You are not logged in OR unauthorized for this conversation</div>
@@ -142,7 +168,10 @@ function GroupDetail ({ logged }) {
                     </div>
 
                     <div className="group-buttons">
-                        {conv.isAdmin && <button>Delete group</button>} 
+                        {conv.isAdmin && <button onClick={() => deleteGroup(conv.id)}>
+                            Delete group
+                            </button>
+                        } 
                     </div>
                 </div>
             }
