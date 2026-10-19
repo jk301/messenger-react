@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 
 import '../style/groupDetail.css'
 
@@ -8,6 +8,8 @@ function GroupDetail ({ logged }) {
     const [conv, setConv] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+
+    const navigate = useNavigate()
 
     // Fetch the conversation
     useEffect(() => {
@@ -53,6 +55,7 @@ function GroupDetail ({ logged }) {
             {loading 
                 ? <div><h2>Fetching details</h2></div>
                 : <div className="group-detail-content">
+                    <button onClick={() => navigate(-1)}>go back</button>
                     <h2>{conv.name ?? "Group name doesn't exist"}</h2>
                     <p>Created at: {conv.createdAt}</p>
                     <div className="member-container">
