@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import '../style/viewConv.css'
 
@@ -87,11 +87,13 @@ function ViewConv({ logged }) {
     <div className="conv-container">
         <div className="conv-detail-div">
             {conv.type === 'GROUP' 
-                ? <div className="conv-detail-bar">
-                    {/* Group */}
-                    {/* profile pic here */}
-                    <h2>{conv.name}</h2>
-                </div>
+                ? <Link to={`/conv/detail/${convId}`}>
+                    <div className="conv-detail-bar">
+                        {/* Group */}
+                        {/* profile pic here */}
+                        <h2>{conv.name}</h2>
+                    </div>
+                </Link>
                 : <div className="conv-detail-bar">
                      {/* direct conv */}
                     {/* profile pic here */}
