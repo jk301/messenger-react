@@ -18,6 +18,8 @@ function Home({ logged }) {
 		} else if (filter === 'group') {
 			const newConv = allConv.filter( c => c.type === 'GROUP' )
 			setShowConv(newConv)
+		} else if (filter == 'all') {
+			setShowConv(allConv)
 		}
 	}, [filter, allConv])
 
@@ -97,7 +99,8 @@ function Home({ logged }) {
 					
 				</div>
 				<div className="start-conv-button">
-					<button>Start a Conversatione</button>
+					<Link to={`/friends`}><button>Start a Conversatione</button></Link>
+					<Link to={`/create/group`}><button>Create a group</button></Link>
 				</div>
 			</div>
 			
