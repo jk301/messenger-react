@@ -8,6 +8,7 @@ import Login from './pages/login'
 import Search from './pages/search'
 import ViewConv from './pages/viewConv'
 import Friends from './pages/friends'
+import GroupCreation from './pages/groupCreate'
 
 function App() {
   const [logged, setLogged] = useState(!!localStorage.getItem('token'))
@@ -21,6 +22,7 @@ function App() {
         <Route path='/search' element={<Search />} />
         <Route path='/conv/:convId' element={<ViewConv logged={logged} />} />
         <Route path='/friends' element={<Friends logged={logged} />} /> 
+        <Route path='/create/group' element={<GroupCreation logged={logged} />} />
       </Routes>
     </BrowserRouter>
   )
