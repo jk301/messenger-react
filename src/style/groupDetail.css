@@ -1,0 +1,21 @@
+
+.group-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.group-detail-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.member-card {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
