@@ -42,6 +42,62 @@ function GroupDetail ({ logged }) {
 
     }, [convId])
 
+    async function makeAdmin (convId, userId) {
+        // /conv/:groupId/admin/:userId
+
+        try {
+            const token = localStorage.getItem('token')
+            const url = `${import.meta.env.VITE_API_URL}/conv/${convId}/admin/${userId}`
+            const res = await fetch( url, {
+                method: "POST", 
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (res.ok) {
+                window.location.reload()
+            } else if (res.status === 401) {
+                setError("You are not authorized for action.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+    }
+
+    async function removeMember (convId, userId) {
+        // /conv/:groupId/remove/:userId
+
+        try {
+            const token = localStorage.getItem('token')
+            const url = `${import.meta.env.VITE_API_URL}/conv/${convId}/remove/${userId}`
+            const res = await fetch( url, {
+                method: "POST", 
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (res.ok) {
+                window.location.reload()
+            } else if (res.status === 401) {
+                setError("You are not authorized for action.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+    }
+
 
     if (!logged) {
         return <div className="status">You are not logged in OR unauthorized for this conversation</div>
@@ -65,6 +121,21 @@ function GroupDetail ({ logged }) {
                                 <div className="member-card">
                                     <h4>{p.user.username}</h4>
                                     <p>Role: {p.role}</p>
+                                    {conv.isAdmin && p.role !== 'ADMIN' 
+                                        && <button 
+                                            onClick={() => makeAdmin(conv.id, p.user.id)}
+                                            >
+                                                Make admin
+                                            </button>
+                                    } 
+
+                                    {conv.isAdmin 
+                                        && <button 
+                                            onClick={() => removeMember(conv.id, p.user.id)}
+                                            >
+                                                Remove
+                                            </button>
+                                    }
                                 </div>
                             ))}
                         </div>
