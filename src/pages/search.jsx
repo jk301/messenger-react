@@ -1,7 +1,9 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import '../style/search.css'
-import { useNavigate } from "react-router-dom"
+
 
 function Search () {
     const [term, setTerm] = useState('')
@@ -92,7 +94,36 @@ function Search () {
         } finally {
             setToggle(true)
         }
-   }
+    }
+
+    async function addToGroup (convId, userId) {
+        // /conv/:groupId/add/:userId
+        try {
+            const token = localStorage.getItem('token')
+            const url = `${import.meta.env.VITE_API_URL}/conv/${convId}/add/${userId}`
+            const res = await fetch( url, {
+                method: "POST", 
+                headers: {
+                    Authorization: `Bearer ${token}`, 
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (res.ok) {
+                navigate(`/conv/detail/${convId}`)
+            } else if (res.status === 401) {
+                setError("You are not authorized for action.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+    }
+
+
 
 	if (error) return <div className="status"><h2>{error}</h2></div>
 
@@ -142,7 +173,11 @@ function Search () {
                             {groups.length > 0 
                                 ? <div className="group-container">
                                     {groups.map( g => (
-                                        <div key={g.id} className="group-card">
+                                        <div 
+                                            onClick={() => addToGroup(g.id, selected)} 
+                                            key={g.id} 
+                                            className="group-card"
+                                        >
                                             <h3>{g.name}</h3>
                                         </div>
                                     ))}
