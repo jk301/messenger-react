@@ -19,10 +19,12 @@ function Nav ({ logged, setLogged, profile }) {
     return (
         <nav>
             { profile 
-                ? <div className="profile-div">
-                    {/* profile image here */}
-                    <h1>Hello {profile.username}</h1>
-                </div>
+                ? <Link to={`/profile`}>
+                    <div className="profile-div">
+                        {/* profile image here */}
+                        <h1>Hello {profile.username}</h1>
+                    </div> 
+                </Link>
                 : <dir>
                     <h1>Hello there messenger</h1>
                 </dir>
