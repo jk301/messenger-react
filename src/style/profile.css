@@ -1,0 +1,50 @@
+
+
+.img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 20px;
+}
+.img-container > button {
+    font-family: inherit;
+    padding: 20px;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+
+    background-color: grey;
+}
+
+.detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pass-btn {
+    font-family: inherit;
+    font-size: 15px;
+    padding: 20px;
+}
+
+.delete-btn {
+    font-family: inherit;
+    font-size: 20px;
+    margin-top: 30px;
+    padding: 20px;
+}
+.delete-btn:hover {
+    background-color: red;
+    color: white;
+}
