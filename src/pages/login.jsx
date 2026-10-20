@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-function Login({ logged, setLogged }) {
+function Login({ logged, setLogged, setProfile }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -22,13 +22,11 @@ function Login({ logged, setLogged }) {
         setError('') 
 
         try {
-            console.log('fetching')
             const res = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify({ username, password })
             })
-            console.log('fetched')
 
             if (res.status === 401) {
                 setError('Invalid email or password.')
@@ -46,6 +44,28 @@ function Login({ logged, setLogged }) {
             setLogged(true)
             console.log('Logged in.')
             localStorage.setItem("token", data.token)
+
+            // Profile state update 
+            try {
+                const token = localStorage.getItem('token')
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/profile`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+
+                if (res.ok) {
+                    const data = await res.json()
+                    setProfile(data.profile)
+                } else if (res.status === 401) {
+                    setError("You are not authorized for tha requested data.")
+                } else {
+                    const data = await res.json()
+                    setError(data.error || "Could not load :(")
+                }
+            } catch (error) {
+                console.log(error)
+                setError(error.message)
+            }
+
             navigate('/')
 
         } catch (err) {

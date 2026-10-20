@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import '../style/nav.css'
 
-function Nav ({ logged, setLogged }) {
+function Nav ({ logged, setLogged, profile }) {
     const navigate = useNavigate()
     function handleLogout () {
         if (!logged) {
@@ -18,7 +18,16 @@ function Nav ({ logged, setLogged }) {
 
     return (
         <nav>
-            <Link to='/'><h1>The nav</h1></Link>
+            { profile 
+                ? <div className="profile-div">
+                    {/* profile image here */}
+                    <h1>Hello {profile.username}</h1>
+                </div>
+                : <dir>
+                    <h1>Hello there messenger</h1>
+                </dir>
+            }
+
             { logged 
                 ? <div className="nav-but">
                     <Link to='/' >Home</Link>
