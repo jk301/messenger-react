@@ -9,6 +9,7 @@ function Profile ({ logged, profile, setProfile }) {
 	const [newName, setNewName] = useState('')
 	const [newEmail, setNewEmail] = useState('')
 	const [newPass, setNewPass] = useState('')
+	const [file, setFile] = useState(null)
 
 	const [nameToggle, setNameToggle] = useState(false)
 	const [emailToggle, setEmailToggle] = useState(false)
@@ -41,6 +42,44 @@ function Profile ({ logged, profile, setProfile }) {
 			}
 		})()
     },[logged, setProfile])
+
+	async function handleAvatar (e) {
+		e.preventDefault()
+		try {
+			setLoading(true)
+
+			const formData = new FormData()
+			formData.append('avatar', file)
+
+			const token = localStorage.getItem('token')
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/profile/change/avatar`, {
+				method: "PATCH", 
+				headers: {
+					Authorization: `Bearer ${token}`, 
+				}, 
+				body: formData
+			})
+
+			if (res.ok) {
+				const data = await res.json()
+				setProfile(data.updated)
+			} else if (res.status === 401) {
+				setError("Unauthorized request")
+			} else {
+				const data = await res.json()
+				setError(data.error || "Could not load :(")
+			}   
+
+		} catch (error) {
+			console.log(error)
+			setError(error.message)
+		} finally {
+			setLoading(false)
+			setNameToggle(false)
+			setEmailToggle(false)
+			setPassToggle(false)
+		}
+	}
 
 	async function handleUsername (e) {
 		e.preventDefault()
@@ -158,8 +197,17 @@ function Profile ({ logged, profile, setProfile }) {
                 ? <h2>Fetching details</h2>
                 : <div className="content">
 					<div className="img-container">
-						<img src={null} className="profile-pic" />
-						<button>upload a profile picture</button>
+						<img src={profile.avatarURL} className="profile-pic" />
+						<form onSubmit={handleAvatar}>
+							<input 
+								type="file" 
+								name="avatar" 
+								accept="image/jpg,image/png,image/webp" 
+								onChange={e => setFile(e.target.files[0])}
+							/>
+							<button type="submit">Upload</button>
+						</form>
+						
 					</div>
 					{nameToggle 
 						? <div className="change-input">
