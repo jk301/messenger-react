@@ -21,7 +21,11 @@ function Nav ({ logged, setLogged, profile }) {
             { profile 
                 ? <Link to={`/profile`}>
                     <div className="profile-div">
-                        {/* profile image here */}
+                        <img 
+                            src={profile.avatarURL} 
+                            alt="profile avatar" 
+                            className="avatar"
+                        />
                         <h1>Hello {profile.username}</h1>
                     </div> 
                 </Link>

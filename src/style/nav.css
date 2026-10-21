@@ -50,3 +50,15 @@ nav > a {
   background-color: #333;
   color: #fff;
 }
+
+.profile-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar {
+  width: auto;
+  height: 50px;
+}
