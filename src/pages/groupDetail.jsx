@@ -9,6 +9,8 @@ function GroupDetail ({ logged }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
+    const [file, setFile] = useState(null)
+
     const navigate = useNavigate()
 
     // Fetch the conversation
@@ -41,6 +43,42 @@ function GroupDetail ({ logged }) {
         })()
 
     }, [convId])
+
+    async function handleAvatar (e) {
+        // /conv/:groupId/avatar
+		e.preventDefault()
+		try {
+			setLoading(true)
+
+			const formData = new FormData()
+			formData.append('avatar', file)
+
+			const token = localStorage.getItem('token')
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/conv/${conv.id}/avatar`, {
+				method: "PATCH", 
+				headers: {
+					Authorization: `Bearer ${token}`, 
+				}, 
+				body: formData
+			})
+
+			if (res.ok) {
+				const data = await res.json()
+                setConv(data.updated)
+			} else if (res.status === 401) {
+				setError("Unauthorized request")
+			} else {
+				const data = await res.json()
+				setError(data.error || "Could not load :(")
+			}   
+
+		} catch (error) {
+			console.log(error)
+			setError(error.message)
+		} finally {
+			setLoading(false)
+		}
+	}
 
     async function makeAdmin (convId, userId) {
         // /conv/:groupId/admin/:userId
@@ -138,6 +176,20 @@ function GroupDetail ({ logged }) {
                 ? <div><h2>Fetching details</h2></div>
                 : <div className="group-detail-content">
                     <button onClick={() => navigate(-1)}>go back</button>
+                    <div className="group-image-container">
+                        <img src={conv.avatarURL} className="group-avatar" />
+                        {conv.isAdmin 
+                            && <form onSubmit={handleAvatar}>
+                                    <input 
+                                        type="file" 
+                                        name="avatar"
+                                        accept="image/jpg, image/png, image/webp"
+                                        onChange={e => setFile(e.target.files[0])}
+                                    />
+                                    <button type="submit">upload</button>
+                                </form>
+                        }
+                    </div>
                     <h2>{conv.name ?? "Group name doesn't exist"}</h2>
                     <p>Created at: {conv.createdAt}</p>
                     <div className="member-container">

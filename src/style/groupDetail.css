@@ -13,6 +13,13 @@
     align-items: center;
 }
 
+.group-avatar {
+    width: 150px;
+    height: 150px;
+
+    background-color: grey;
+}
+
 .member-card {
     display: flex;
     align-items: center;
