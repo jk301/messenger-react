@@ -75,7 +75,12 @@ function Home({ logged }) {
 								<div key={conv.id} className="conv-card">
 									{/* // profile image here maybe ? */}
 									<img 
-										src={conv.avatarURL ? conv.avatarURL : '/public/user.jpg'} 
+										src={conv.avatarURL 
+												? conv.avatarURL
+												: conv.otherURL 
+													? conv.otherURL
+													: '/public/user.jpg'
+											} 
 										className="home-avatars" 
 									/>
 									{ conv.type === 'GROUP' 
