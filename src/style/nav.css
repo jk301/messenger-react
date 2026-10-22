@@ -61,4 +61,6 @@ nav > a {
 .avatar {
   width: auto;
   height: 50px;
+
+  border-radius: 50px;
 }
