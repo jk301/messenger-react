@@ -90,13 +90,20 @@ function ViewConv({ logged }) {
                 ? <Link to={`/conv/detail/${convId}`}>
                     <div className="conv-detail-bar">
                         {/* Group */}
-                        {/* profile pic here */}
+                        <img 
+                            src={conv.avatarURL ?? '/public/user.jpg'}
+                            className="avatars" 
+                        />
                         <h2>{conv.name}</h2>
                     </div>
                 </Link>
                 : <div className="conv-detail-bar">
                      {/* direct conv */}
                     {/* profile pic here */}
+                    <img 
+                        src={conv.otherURL ?? '/public/user.jpg'}
+                        className="avatars" 
+                    />
                     <h2>{conv.other}</h2>
                 </div>
             }
@@ -106,11 +113,22 @@ function ViewConv({ logged }) {
                 ? <div className="message-container">
                     {conv.messages.map( m => (
                         <div key={m.id} className={`message-card ${m.me ? "mine" : ''}`}>
-                            <p>{m.text}</p>
-                            {conv.type === 'DIRECT' 
-                                ? ''
-                                : <p>{m.sender?.username ?? "Deleted user"}</p>
+                            {m.me 
+                                ? '' 
+                                : conv.type === 'DIRECT' 
+                                    ? ''
+                                    : <img 
+                                        src={ m.sender.avatarURL ?? '/public/user.jpg'} 
+                                        className="msg-avatars" 
+                                    />
                             }
+                            <div className="msg-text-detail">
+                                <p>{m.text}</p>
+                                {conv.type === 'DIRECT' 
+                                    ? ''
+                                    : <p>{m.sender?.username ?? "Deleted user"}</p>
+                                }
+                            </div>
                         </div>
                     ))}
                 </div>

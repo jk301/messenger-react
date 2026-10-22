@@ -22,6 +22,11 @@
     border: 2px solid grey
 }
 
+.conv-detail-bar {
+    display: flex;
+    gap: 20px;
+}
+
 .messages {
     display: flex;
     width: 60%;
@@ -34,11 +39,20 @@
 }
 .message-card {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     width:max-content;
     padding: 15px;
     border-radius: 8px;
     border: 2px solid grey;
+}
+
+.msg-avatars {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50px;
 }
 
 .mine {
