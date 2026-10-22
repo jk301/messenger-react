@@ -46,3 +46,10 @@
 .conv-card > p , .conv-card > h3 {
     overflow-x: hidden;
 }
+
+.home-avatars {
+    width: auto; 
+    height: 60px;
+
+    border-radius: 50px;
+}

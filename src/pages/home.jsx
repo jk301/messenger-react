@@ -74,7 +74,10 @@ function Home({ logged }) {
 							<Link to={`conv/${conv.id}`}>
 								<div key={conv.id} className="conv-card">
 									{/* // profile image here maybe ? */}
-									<p>"pic"</p>
+									<img 
+										src={conv.avatarURL ? conv.avatarURL : '/public/user.jpg'} 
+										className="home-avatars" 
+									/>
 									{ conv.type === 'GROUP' 
 										? <div>
 												<h3>{conv.name}</h3> 
