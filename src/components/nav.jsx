@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import '../style/nav.css'
 
-function Nav ({ logged, setLogged, profile }) {
+function Nav ({ logged, setLogged, profile, setProfile }) {
     const navigate = useNavigate()
     function handleLogout () {
         if (!logged) {
@@ -13,6 +13,7 @@ function Nav ({ logged, setLogged, profile }) {
         localStorage.removeItem("token")
         console.log('Token removed.')
         setLogged(false)
+        setProfile(null)
         navigate('/')
     }
 
@@ -22,7 +23,7 @@ function Nav ({ logged, setLogged, profile }) {
                 ? <Link to={`/profile`}>
                     <div className="profile-div">
                         <img 
-                            src={profile.avatarURL} 
+                            src={profile.avatarURL ?? '/public/user.jpg'} 
                             alt="profile avatar" 
                             className="avatar"
                         />

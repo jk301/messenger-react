@@ -17,7 +17,7 @@ function App() {
   const [profile, setProfile] = useState(null)
   return (
     <BrowserRouter>
-      <Nav logged={logged} setLogged={setLogged} profile={profile} />
+      <Nav logged={logged} setLogged={setLogged} profile={profile} setProfile={setProfile} />
       <Routes>
         <Route path='/' element={<Home logged={logged} />} />
         <Route path='/register' element={<Register logged={logged} />} />
