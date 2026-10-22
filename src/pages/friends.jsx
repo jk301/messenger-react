@@ -160,7 +160,10 @@ function Friends({ logged }) {
             ? <div className="card-container">
                 {friends.map( f => (
                     <div key={f.reqId} className="friend-card">
-                        {/* profile pic here */}
+                        <img 
+                            src={f.friend.avatarURL ?? '/public/user.jpg'} 
+                            className="avatars"
+                        />
                         <h3>{f.friend.username}</h3> 
                         <p>Status: {f.status}</p>
                         <div className="card-button-container">

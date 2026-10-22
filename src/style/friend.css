@@ -38,6 +38,13 @@
     border: 2px solid grey;
 }
 
+.avatars {
+    width: auto;
+    height: 60px;
+
+    border-radius: 50px;
+}
+
 
 /* .status {
     display: flex;
