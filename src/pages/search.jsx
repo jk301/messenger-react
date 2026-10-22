@@ -144,6 +144,10 @@ function Search () {
                     ? <div className="result-div">
                         {result.map( user => (
                             <div className="result-card" key={user.id}>
+                                <img 
+                                    src={user.avatarURL ?? '/public/user.jpg'} 
+                                    className="avatars"
+                                />
                                 <h2>{user.username}</h2>
                                 {user.status 
                                     ? <p>Friend status: {user.status}</p>
