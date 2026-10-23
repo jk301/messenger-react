@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Link, useParams } from "react-router-dom"
 
 import '../style/viewConv.css'
@@ -10,6 +10,9 @@ function ViewConv({ logged }) {
     const [loading, setLoading] = useState(true)
 
     const [message, setMessage] = useState('')
+
+    const [file, setFile] = useState(null)
+    const fileInputRef = useRef(null)
 
     // Fetch the conversation
     useEffect(() => {
@@ -41,6 +44,45 @@ function ViewConv({ logged }) {
         })()
 
     }, [convId])
+
+    async function handleUpload (e) {
+        e.preventDefault()
+
+        try {
+            const formData = new FormData()
+			formData.append('file', file)
+
+            const token  = localStorage.getItem('token')
+            const url = `${import.meta.env.VITE_API_URL}/conv/${convId}/file`
+            const res = await fetch( url, {
+                method: "POST", 
+                headers: { 
+                    Authorization: `Bearer ${token}`
+                }, 
+                body: formData
+            })
+
+            if (res.ok) {
+                const data = await res.json()
+                console.log('file sent successfully')
+                setConv(prev => ({...prev, messages: [...prev.messages, data.message]}))
+                setFile(null)
+                fileInputRef.current.value = ''
+            } else if (res.status === 401) {
+                setError("Want to Start messaging? sign up & log in.")
+            } else {
+                const data = await res.json()
+                setError(data.error || "Could not load :(")
+            }
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+        }
+    }
+
+    function downloadURL(url) {
+        return url.replace('/upload/', '/upload/fl_attachment/')
+    }
 
     async function handleMessage (e) {
         e.preventDefault()
@@ -123,7 +165,10 @@ function ViewConv({ logged }) {
                                     />
                             }
                             <div className="msg-text-detail">
-                                <p>{m.text}</p>
+                                {m.filePublicId 
+                                    ? <a href={downloadURL(m.fileURL)}>{m.fileName}</a>
+                                    : <p>{m.text}</p>
+                                }
                                 {conv.type === 'DIRECT' 
                                     ? ''
                                     : <p>{m.sender?.username ?? "Deleted user"}</p>
@@ -138,12 +183,29 @@ function ViewConv({ logged }) {
             }
         </div>
         <div className="input-div">
-            <form onSubmit={handleMessage}>
-                <textarea 
-                    value={message} 
-                    onChange={e => setMessage(e.target.value)} 
-                    id="message-input" 
+            <form onSubmit={ file ? handleUpload : handleMessage}>
+                <input 
+                    type="file" 
+                    name="file" 
+                    onChange={e => setFile(e.target.files[0])}
+                    ref={fileInputRef}
                 />
+                {file 
+                    && <button 
+                        onClick={() => { 
+                            setFile(null)  
+                            fileInputRef.current.value = ''
+                        }}
+                        >
+                            cancel
+                        </button>} 
+                {!file 
+                    && <textarea 
+                            value={message} 
+                            onChange={e => setMessage(e.target.value)} 
+                            id="message-input" 
+                        />
+                }
                 <button type="submit">Send</button>
             </form>
         </div>
