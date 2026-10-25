@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import { Link, useParams } from "react-router-dom"
+import { io } from "socket.io-client"
 
 import '../style/viewConv.css'
 
@@ -44,6 +45,28 @@ function ViewConv({ logged }) {
         })()
 
     }, [convId])
+
+    useEffect(() => {
+        const socket = io(import.meta.env.VITE_API_URL, {
+            auth: { token: localStorage.getItem('token') }
+        })
+
+        socket.on('newMessage', (m) => {
+            if (m.convId !== convId) return 
+
+            setConv( prev => {
+                if (!prev) return 
+                if (prev.messages.some( x => x.id === m.id)) return prev
+                return {...prev, messages: [...prev.messages, m]}
+            } ) 
+        })
+
+        socket.on('connect', () => console.log('socket connected', socket.id))
+        socket.onAny((event, ...args) => console.log('got event', event, args))
+
+        return () => socket.disconnect()
+    }, [convId])
+    
 
     async function handleUpload (e) {
         e.preventDefault()
