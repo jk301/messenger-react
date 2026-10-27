@@ -14,6 +14,7 @@ function Home({ logged }) {
 	useEffect(() => {
 		if (filter === 'direct') {
 			const newConv = allConv.filter( c => c.type === 'DIRECT' )
+			// eslint-disable-next-line react-hooks/set-state-in-effect
 			setShowConv(newConv)
 		} else if (filter === 'group') {
 			const newConv = allConv.filter( c => c.type === 'GROUP' )
