@@ -45,6 +45,14 @@
     border-radius: 50px;
 }
 
+.online-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2ecc71;
+    display: inline-block;
+}
+
 
 /* .status {
     display: flex;

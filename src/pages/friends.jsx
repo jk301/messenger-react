@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { PresenceContext } from "../App"
 
 import '../style/friend.css'
 
@@ -22,6 +24,8 @@ function Friends({ logged }) {
 
 	const [error, setError] = useState(null)
 	const [loading, setLoading] = useState(true)
+
+    const onlineIds = useContext(PresenceContext)
 
     const navigate = useNavigate()
 
@@ -166,6 +170,7 @@ function Friends({ logged }) {
                         />
                         <h3>{f.friend.username}</h3> 
                         <p>Status: {f.status}</p>
+                        {onlineIds.has(f.friend.id) && <span className="online-dot" />} 
                         <div className="card-button-container">
                             {filter === 'all' 
                                 && <button onClick={() => startConv(f.friend.id)}>Start chatting</button>
