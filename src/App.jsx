@@ -83,7 +83,7 @@ function App() {
       <Nav logged={logged} setLogged={setLogged} profile={profile} setProfile={setProfile} />
       <PresenceContext.Provider value={onlineIds} >
       <Routes>
-        <Route path='/' element={<Home logged={logged} />} />
+        <Route path='/' element={<Home logged={logged} profile={profile} />} />
         <Route path='/register' element={<Register logged={logged} />} />
         <Route path='/login' element={<Login logged={logged} setLogged={setLogged} />} /> 
         <Route path='/search' element={<Search />} />
