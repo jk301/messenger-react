@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import '../style/home.css'
 import { Link } from "react-router-dom"
 
-function Home({ logged }) {
+function Home({ logged, profile }) {
 	const [allConv, setAllConv] = useState([])
 	const [showConv, setShowConv] = useState([])
 	const [error, setError] = useState(null)
@@ -19,7 +19,7 @@ function Home({ logged }) {
 		} else if (filter === 'group') {
 			const newConv = allConv.filter( c => c.type === 'GROUP' )
 			setShowConv(newConv)
-		} else if (filter == 'all') {
+		} else if (filter === 'all') {
 			setShowConv(allConv)
 		}
 	}, [filter, allConv])
@@ -65,9 +65,18 @@ function Home({ logged }) {
         {logged 
 			? <div className="post-content">
 				<div className="conv-selector">
-					<button onClick={() => setFilter('all')} >All</button>
-					<button onClick={() => setFilter('direct')}>Direct</button>
-					<button onClick={() => setFilter('group')}>Groups</button>
+					<h1 
+						onClick={() => { setFilter('all') }}
+						className={filter === 'all' ? 'active-filter' : 'filter'}
+					>All</h1>
+					<h1 
+						onClick={() => { setFilter('direct') }}
+						className={filter === 'direct' ? 'active-filter' : 'filter'}
+					>Direct</h1>
+					<h1 
+						onClick={() => { setFilter('group') }}
+						className={filter === 'group' ? 'active-filter' : 'filter'}
+					>Groups</h1>
 				</div>
 				<div className="conv-container">
 					{showConv.length > 0 
@@ -88,14 +97,34 @@ function Home({ logged }) {
 										? <div>
 												<h3>{conv.name}</h3> 
 												<p>{conv.messages[0]?.text 
-													? `${conv.messages[0].text}` 
-													: 'No messages'
+													? profile.username === conv.messages[0].sender.username
+														? <span>You: {conv.messages[0].text}</span>
+														: <span>
+															{conv.messages[0].sender.username}: {conv.messages[0].text}
+															</span>
+													: conv.messages[0]?.fileName 
+														? <span>
+															{conv.messages[0].sender.username}: {conv.messages[0].fileName}
+														</span>
+														: 'No messages'
 												}</p>
 											</div>
 										: <div>
 												<h3>{conv.other}</h3>
 												<p>{conv.messages[0]?.text 
-													? `${conv.messages[0].text}` 
+													? profile.username === conv.messages[0].sender.username
+														? <span>You: {conv.messages[0].text}</span>
+														: <span>
+															{conv.messages[0].sender.username}: {conv.messages[0].text}
+															</span>
+													: conv.messages[0]?.fileName 
+														? profile.username === conv.messages[0].sender.username 
+															? <span>
+																You: {conv.messages[0].fileName}
+															</span>
+															: <span>
+																{conv.messages[0].sender.username}: {conv.messages[0].fileName}
+															</span>
 													: 'No messages'
 												}</p>
 											</div> 
