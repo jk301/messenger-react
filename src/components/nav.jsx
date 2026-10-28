@@ -31,7 +31,7 @@ function Nav ({ logged, setLogged, profile, setProfile }) {
                     </div> 
                 </Link>
                 : <dir>
-                    <h1>Hello there messenger</h1>
+                    <h1>Hello</h1>
                 </dir>
             }
 
