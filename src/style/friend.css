@@ -27,6 +27,9 @@
     padding: 10px;
 
     width: 60%;
+
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .friend-card {
