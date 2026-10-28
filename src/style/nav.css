@@ -7,7 +7,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid #ddd;
   background-color: #fff;
 
@@ -21,6 +21,11 @@ nav h1 {
 
 nav > a {
   margin-left: 1rem;
+  text-decoration: none;
+  color: black;
+}
+nav > a:hover {
+  color: grey;
 }
 
 .nav-but {
@@ -33,6 +38,12 @@ nav > a {
   padding: 0.4rem 0.9rem;
   border: 1px solid #333;
   border-radius: 4px;
+
+  text-decoration: none;
+  color: black;
+}
+.nav-but a:hover {
+  color: grey;
 }
 
 .nav-but a.active {
@@ -46,6 +57,10 @@ nav > a {
   border-radius: 4px;
   background: none;
   font-size: 1rem;
+}
+.nav-but .logout:hover {
+  background-color: rgb(185, 2, 2);
+
 }
 
 .nav-but button:hover {
