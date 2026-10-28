@@ -170,7 +170,12 @@ function Friends({ logged }) {
                         />
                         <h3>{f.friend.username}</h3> 
                         <p>Status: {f.status}</p>
-                        {onlineIds.has(f.friend.id) && <span className="online-dot" />} 
+                        {f.status === 'ACCEPTED' 
+                            ? onlineIds.has(f.friend.id) 
+                                ? <span className="online-dot" /> 
+                                : <span className="online-dot-red" />
+                            : ''
+                        }
                         <div className="card-button-container">
                             {filter === 'all' 
                                 && <button onClick={() => startConv(f.friend.id)}>Start chatting</button>

@@ -32,7 +32,7 @@
 .friend-card {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
     padding: 20px;
 
     border: 2px solid grey;
@@ -51,6 +51,25 @@
     border-radius: 50%;
     background: #2ecc71;
     display: inline-block;
+}
+
+.online-dot-red {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: red;
+    display: inline-block;
+}
+
+.card-button-container {
+    display: flex;
+    margin-left: auto;
+    gap: 20px;
+}
+.card-button-container > button {
+    font-family: inherit;
+    padding: 15px;
+    border-radius: 8px;
 }
 
 
