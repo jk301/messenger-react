@@ -37,10 +37,10 @@ function Nav ({ logged, setLogged, profile, setProfile }) {
 
             { logged 
                 ? <div className="nav-but">
-                    <Link to='/' >Home</Link>
-                    <Link to='/friends' >Friends</Link>
-                    <Link to='/search' >Search people</Link>
-                    <button onClick={handleLogout} >Logout</button>
+                    <NavLink to='/' >Home</NavLink>
+                    <NavLink to='/friends' >Friends</NavLink>
+                    <NavLink to='/search' >Search people</NavLink>
+                    <button className="logout" onClick={handleLogout} >Logout</button>
                 </div>
                 : <div className="nav-but">
                     <NavLink to='/register'>Sign up</NavLink>
