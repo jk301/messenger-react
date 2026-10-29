@@ -87,7 +87,7 @@ function App() {
         <Route path='/register' element={<Register logged={logged} />} />
         <Route path='/login' element={<Login logged={logged} setLogged={setLogged} />} /> 
         <Route path='/search' element={<Search />} />
-        <Route path='/conv/:convId' element={<ViewConv logged={logged} />} />
+        <Route path='/conv/:convId' element={<ViewConv logged={logged} profile={profile} />} />
         <Route path='/friends' element={<Friends logged={logged} />} /> 
         <Route path='/create/group' element={<GroupCreation logged={logged} />} />
         <Route path='/conv/detail/:convId' element={<GroupDetail logged={logged} />} />
