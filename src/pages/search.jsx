@@ -128,15 +128,16 @@ function Search () {
 
     return (
         <div className="search">
-            <form onSubmit={handleSearch} >
+            <form onSubmit={handleSearch} className="search-form" >
                 <input 
                     type="text" 
                     placeholder="search" 
+                    className="search-input"
                     value={term} 
                     onChange={e => setTerm(e.target.value)}
                     required
                 />
-                <button type="submit">Search</button>
+                {/* <button type="submit">Search</button> */}
             </form>
             {loading 
                 ? <div className="status"><h2>Fetching users..</h2></div>
@@ -149,15 +150,17 @@ function Search () {
                                     className="avatars"
                                 />
                                 <h2>{user.username}</h2>
-                                {user.status 
-                                    ? <p>Friend status: {user.status}</p>
-                                    : <button 
-                                        onClick={() => sendReq(user.id)}
-                                    >
-                                        Send friend request
-                                    </button>
-                                }
-                                <button onClick={() => handleGroupSelect(user.id)}>Add to group</button>
+                                {user.status && <p>Friend status: {user.status}</p>}
+                                <div className="result-card-buttons">
+                                    {!user.status 
+                                        && <button 
+                                            onClick={() => sendReq(user.id)}
+                                        >
+                                            Send friend request
+                                        </button>
+                                    }
+                                    <button onClick={() => handleGroupSelect(user.id)}>Add to group</button>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -181,6 +184,10 @@ function Search () {
                                             key={g.id} 
                                             className="group-card"
                                         >
+                                            <img 
+                                                src={g.avatarURL ?? '/public/user.jpg'} 
+                                                className="avatar"     
+                                            />
                                             <h3>{g.name}</h3>
                                         </div>
                                     ))}
