@@ -39,6 +39,7 @@
 
 .conv-container {
     display: flex;
+    flex-direction: column;
     gap: 10px;
     box-sizing: border-box;
     padding: 5px;
