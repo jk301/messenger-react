@@ -4,7 +4,7 @@ import { io } from "socket.io-client"
 
 import '../style/viewConv.css'
 
-function ViewConv({ logged }) {
+function ViewConv({ logged, profile }) {
     const { convId } = useParams()
     const [conv, setConv] = useState(null)
     const [error, setError] = useState(null)
@@ -46,26 +46,31 @@ function ViewConv({ logged }) {
 
     }, [convId])
 
+    // socket message received
     useEffect(() => {
         const socket = io(import.meta.env.VITE_API_URL, {
             auth: { token: localStorage.getItem('token') }
         })
 
-        socket.on('newMessage', (m) => {
-            if (m.convId !== convId) return 
+        socket.on('newMessage', (msg) => {
+            if (msg.convId !== convId) return 
 
             setConv( prev => {
                 if (!prev) return 
-                if (prev.messages.some( x => x.id === m.id)) return prev
-                return {...prev, messages: [...prev.messages, m]}
+                if (prev.messages.some( x => x.id === msg.id)) return prev
+                return {
+                    ...prev, 
+                    messages: [
+                        ...prev.messages, 
+                        { ...msg, me: msg.senderId === profile.id }
+                    ]}
             } ) 
         })
 
         socket.on('connect', () => console.log('socket connected', socket.id))
-        socket.onAny((event, ...args) => console.log('got event', event, args))
 
         return () => socket.disconnect()
-    }, [convId])
+    }, [convId, profile])
     
 
     async function handleUpload (e) {
@@ -86,11 +91,7 @@ function ViewConv({ logged }) {
             })
 
             if (res.ok) {
-                const data = await res.json()
                 console.log('file sent successfully')
-                setConv(prev => ({...prev, messages: [...prev.messages, data.message]}))
-                setFile(null)
-                fileInputRef.current.value = ''
             } else if (res.status === 401) {
                 setError("Want to Start messaging? sign up & log in.")
             } else {
@@ -100,6 +101,9 @@ function ViewConv({ logged }) {
         } catch (error) {
             console.log(error)
             setError(error.message)
+        } finally {
+            setFile(null)
+            fileInputRef.current.value = ''
         }
     }
 
@@ -109,6 +113,8 @@ function ViewConv({ logged }) {
 
     async function handleMessage (e) {
         e.preventDefault()
+
+        console.log('message state (inside handleMessage):', JSON.stringify(message))
 
         try {
             const token = localStorage.getItem('token')
@@ -123,10 +129,7 @@ function ViewConv({ logged }) {
             })
 
             if (res.ok) {
-                const data = await res.json()
                 console.log('message sent successfully')
-                setConv(prev => ({...prev, messages: [...prev.messages, data.message]}))
-                setMessage('')
             } else if (res.status === 401) {
                 setError("Want to Start messaging? sign up & log in.")
             } else {
@@ -137,7 +140,10 @@ function ViewConv({ logged }) {
         } catch (error) {
             console.log(error)
             setError(error.message)
-        } 
+        } finally {
+            setMessage('')
+            console.log('message state (inside handleMessage):', JSON.stringify(message))
+        }
     }
 
 
@@ -147,9 +153,10 @@ function ViewConv({ logged }) {
     if (loading) return <div className="status"><h2>Fetching conversations..</h2></div>
 	if (error) return <div className="status"><h2>{error}</h2></div>
 
-    console.log(conv)
+    console.log('message state:', JSON.stringify(message))
+
   return (
-    <div className="conv-container">
+    <div className="in-conv-container">
         <div className="conv-detail-div">
             {conv.type === 'GROUP' 
                 ? <Link to={`/conv/detail/${convId}`}>
@@ -157,7 +164,7 @@ function ViewConv({ logged }) {
                         {/* Group */}
                         <img 
                             src={conv.avatarURL ?? '/public/user.jpg'}
-                            className="avatars" 
+                            className="conv-main-avatars" 
                         />
                         <h2>{conv.name}</h2>
                     </div>
@@ -167,7 +174,7 @@ function ViewConv({ logged }) {
                     {/* profile pic here */}
                     <img 
                         src={conv.otherURL ?? '/public/user.jpg'}
-                        className="avatars" 
+                        className="conv-main-avatars" 
                     />
                     <h2>{conv.other}</h2>
                 </div>
@@ -205,33 +212,32 @@ function ViewConv({ logged }) {
                 </div>
             }
         </div>
-        <div className="input-div">
-            <form onSubmit={ file ? handleUpload : handleMessage}>
-                <input 
-                    type="file" 
-                    name="file" 
-                    onChange={e => setFile(e.target.files[0])}
-                    ref={fileInputRef}
-                />
-                {file 
-                    && <button 
-                        onClick={() => { 
-                            setFile(null)  
-                            fileInputRef.current.value = ''
-                        }}
-                        >
-                            cancel
-                        </button>} 
-                {!file 
-                    && <textarea 
-                            value={message} 
-                            onChange={e => setMessage(e.target.value)} 
-                            id="message-input" 
-                        />
-                }
-                <button type="submit">Send</button>
-            </form>
-        </div>
+        <form className="message-input-form" onSubmit={ file ? handleUpload : handleMessage}>
+            <input 
+                type="file" 
+                name="file" 
+                onChange={e => setFile(e.target.files[0])}
+                ref={fileInputRef}
+            />
+            {file 
+                && <button 
+                    onClick={() => { 
+                        setFile(null)  
+                        fileInputRef.current.value = ''
+                    }}
+                    >
+                        cancel
+                    </button>} 
+            {!file 
+                && <input 
+                        value={message} 
+                        onChange={e => setMessage(e.target.value)} 
+                        id="message-input" 
+                        placeholder="Message"
+                    />
+            }
+            <button type="submit">Send</button>
+        </form>
     </div>
   )
 }
