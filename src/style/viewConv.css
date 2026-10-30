@@ -5,7 +5,7 @@
     flex-direction: column;
     align-items: center;
 
-    max-height: 88vh;
+    height: 88vh;
 }
 
 .conv-detail-div {
@@ -14,7 +14,7 @@
 
     width: 60%;
 
-    padding: 10px;
+    padding: 5px;
     padding-left: 40px;
     box-sizing: border-box;
     border-bottom: 2px solid grey
@@ -34,14 +34,18 @@
 
 .messages {
     display: flex;
+    flex-direction: column;
     width: 60%;
     overflow-y: auto;
-    max-height: 40%;
+    flex: 1; min-height: 0;
 }
 .message-container {
     display: flex;
     flex-direction: column;
+
+    margin-top: auto;
     width: 100%;
+    padding: 10px 0 10px 0;
     gap: 10px;
 }
 .message-card {
@@ -50,21 +54,62 @@
     align-items: center;
     gap: 10px;
     width:max-content;
-    padding: 5px 20px 5px 20px;
+    padding: 8px 15px 8px 15px;
     border-radius: 8px;
-    border: 2px solid grey;
+    border: 1px solid grey;
+
+    max-width: 70%;
+}
+
+.msg-text-detail {
+    overflow-wrap: anywhere;
+}
+
+.msg-text-detail > p {
+    margin: 0;
 }
 
 .message-input-form {
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
 
+
+    margin-top: 10px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 2px solid grey;
     width: 60%;
+}
+.message-input-form > button, .file-name-cancel-container > button  {
+    margin: 0;
+    border: 0;
+    border: 1px solid black;
+    font-size: 1em;
+    font-family: inherit;
+    padding: 10px;
+
+    align-self: stretch;
+
+    border-radius: 8px;
+}
+.message-input-form > button:hover, .file-name-cancel-container > button:hover {
+    color: grey;
 }
 
 #message-input {
     height: 30px;
-    width: 100%;
+    width: 70%;
+
+    font-family: inherit;
+    font-size: 1em;
+
+    padding: 10px;
+
+    border: 0;
+    border: 1px solid black;
+    border-radius: 8px;
 }
 
 .msg-avatars {
@@ -78,4 +123,17 @@
     margin-left: auto;
 }
 
-/* input-div */
+#file-input {
+    display: none;
+}
+
+.file-icon {
+    width: auto;
+    min-height: 80%;
+    cursor: pointer;
+}
+
+.file-name-cancel-container {
+    display: flex;
+    gap: 20px;
+}
