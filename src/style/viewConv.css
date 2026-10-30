@@ -25,6 +25,14 @@
     align-items: center;
     gap: 20px;
 }
+.conv-detail-bar > a {
+    color: black;
+    text-decoration: none;
+}
+.conv-detail-bar > a:hover {
+    color: grey;
+}
+
 .conv-main-avatars {
     width: auto;
     height: 50px;
@@ -67,6 +75,16 @@
 
 .msg-text-detail > p {
     margin: 0;
+}
+
+.profile-small {
+    margin-right: 10px;
+}
+.profile-small > p {
+    margin: 0;
+    text-align: center;
+    color: rgb(27, 27, 27);
+    font-size: 15px;
 }
 
 .message-input-form {
