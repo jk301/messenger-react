@@ -176,7 +176,11 @@ function GroupDetail ({ logged }) {
             {loading 
                 ? <div><h2>Fetching details</h2></div>
                 : <div className="group-detail-content">
-                    <button onClick={() => navigate(-1)}>go back</button>
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className="back-but"
+                        >go back
+                    </button>
                     <div className="group-image-container">
                         <img src={conv.avatarURL ?? '/public/user.jpg'} className="group-avatar" />
                         {conv.isAdmin 
@@ -220,38 +224,47 @@ function GroupDetail ({ logged }) {
                     <h2>{conv.name ?? "Group name doesn't exist"}</h2>
                     <p>Created at: {conv.createdAt}</p>
                     <div className="member-container">
-                        <h2>Members</h2>
+                        <h3>Members</h3>
                         <div className="member-div">
                             {conv.participants.map( p => (
                                 <div className="member-card">
+                                    <img 
+                                        src={p.user.avatarURL ?? '/public/user.jpg'} 
+                                        className="avatars"
+                                    />
                                     <h4>{p.user.username}</h4>
                                     <p>Role: {p.role}</p>
-                                    {conv.isAdmin && p.role !== 'ADMIN' 
-                                        && <button 
-                                            onClick={() => makeAdmin(conv.id, p.user.id)}
-                                            >
-                                                Make admin
-                                            </button>
-                                    } 
+                                    <div className="card-button-div">
+                                        {conv.isAdmin && p.role !== 'ADMIN' 
+                                            && <button 
+                                                onClick={() => makeAdmin(conv.id, p.user.id)}
+                                                >
+                                                    Make admin
+                                                </button>
+                                        } 
 
-                                    {conv.isAdmin 
-                                        && <button 
-                                            onClick={() => removeMember(conv.id, p.user.id)}
-                                            >
-                                                Remove
-                                            </button>
-                                    }
+                                        {conv.isAdmin 
+                                            && <button 
+                                                onClick={() => removeMember(conv.id, p.user.id)}
+                                                >
+                                                    Remove
+                                                </button>
+                                        }
+                                    </div>
+                                    
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div className="group-buttons">
-                        {conv.isAdmin && <button onClick={() => deleteGroup(conv.id)}>
-                            Delete group
-                            </button>
-                        } 
-                    </div>
+                    {conv.isAdmin 
+                        && <button 
+                            onClick={() => deleteGroup(conv.id)} 
+                            className="del-but"
+                            >
+                        Delete group
+                        </button>
+                    }
                 </div>
             }
         </div>
