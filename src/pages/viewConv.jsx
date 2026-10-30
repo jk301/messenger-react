@@ -228,24 +228,37 @@ function ViewConv({ logged, profile }) {
             }
         </div>
         <form className="message-input-form" onSubmit={ file ? handleUpload : handleMessage}>
-            <input 
+            <label htmlFor="file-input" className="file-label">
+                <img src="/public/attach.svg" className="file-icon" alt="attachment button" />
+            </label>
+            <input
+                id="file-input"
                 type="file" 
                 name="file" 
                 onChange={e => setFile(e.target.files[0])}
                 ref={fileInputRef}
             />
             {file 
-                && <button 
-                    onClick={() => { 
-                        setFile(null)  
-                        fileInputRef.current.value = ''
-                    }}
-                    >
-                        cancel
-                    </button>} 
+                && <div className="file-name-cancel-container">
+                    <p>
+                        {file.name}
+                    </p>
+                    <button 
+                        onClick={() => { 
+                            setFile(null)  
+                            fileInputRef.current.value = ''
+                        }}
+                        >
+                            cancel
+                    </button> 
+                </div>
+            }
+                
             {!file 
                 && <input 
                         value={message} 
+                        autoComplete="off" 
+                        spellCheck={false}
                         onChange={e => setMessage(e.target.value)} 
                         id="message-input" 
                         placeholder="Message"
