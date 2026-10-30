@@ -170,16 +170,17 @@ function ViewConv({ logged, profile }) {
     <div className="in-conv-container">
         <div className="conv-detail-div">
             {conv.type === 'GROUP' 
-                ? <Link to={`/conv/detail/${convId}`}>
-                    <div className="conv-detail-bar">
+                ? <div className="conv-detail-bar">
                         {/* Group */}
+                        
                         <img 
                             src={conv.avatarURL ?? '/public/user.jpg'}
                             className="conv-main-avatars" 
                         />
-                        <h2>{conv.name}</h2>
+                        <Link to={`/conv/detail/${convId}`}>
+                            <h2>{conv.name}</h2>
+                        </Link>
                     </div>
-                </Link>
                 : <div className="conv-detail-bar">
                      {/* direct conv */}
                     {/* profile pic here */}
@@ -204,19 +205,23 @@ function ViewConv({ logged, profile }) {
                                 ? '' 
                                 : conv.type === 'DIRECT' 
                                     ? ''
-                                    : <img 
-                                        src={ m.sender.avatarURL ?? '/public/user.jpg'} 
-                                        className="msg-avatars" 
-                                    />
+                                    :  <div className="profile-small">
+                                            <img 
+                                                src={ m.sender.avatarURL ?? '/public/user.jpg'} 
+                                                className="msg-avatars" 
+                                            />
+                                            {conv.type === 'DIRECT' 
+                                                ? ''
+                                                : m.me 
+                                                    ? ''
+                                                    : <p>{m.sender?.username ?? "Deleted user"}</p>
+                                            }
+                                    </div> 
                             }
                             <div className="msg-text-detail">
                                 {m.filePublicId 
                                     ? <a href={downloadURL(m.fileURL)}>{m.fileName}</a>
                                     : <p>{m.text}</p>
-                                }
-                                {conv.type === 'DIRECT' 
-                                    ? ''
-                                    : <p>{m.sender?.username ?? "Deleted user"}</p>
                                 }
                             </div>
                         </div>
