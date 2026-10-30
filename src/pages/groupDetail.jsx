@@ -177,7 +177,7 @@ function GroupDetail ({ logged }) {
                 : <div className="group-detail-content">
                     <button onClick={() => navigate(-1)}>go back</button>
                     <div className="group-image-container">
-                        <img src={conv.avatarURL} className="group-avatar" />
+                        <img src={conv.avatarURL ?? '/public/user.jpg'} className="group-avatar" />
                         {conv.isAdmin 
                             && <form onSubmit={handleAvatar}>
                                     <input 
