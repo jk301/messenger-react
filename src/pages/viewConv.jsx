@@ -18,6 +18,8 @@ function ViewConv({ logged, profile }) {
     const [file, setFile] = useState(null)
     const fileInputRef = useRef(null)
 
+    const scrollRef = useRef(null)
+
     const onlineIds = useContext(PresenceContext)
 
     // Fetch the conversation
@@ -77,6 +79,10 @@ function ViewConv({ logged, profile }) {
         return () => socket.disconnect()
     }, [convId, profile])
     
+    useEffect(() => {
+        const el = scrollRef.current
+        if (el) el.scrollTop = el.scrollHeight
+    }, [conv?.messages])
 
     async function handleUpload (e) {
         e.preventDefault()
@@ -189,7 +195,7 @@ function ViewConv({ logged, profile }) {
                 </div>
             }
         </div>
-        <div className="messages">
+        <div ref={scrollRef} className="messages">
             {conv.messages.length > 0 
                 ? <div className="message-container">
                     {conv.messages.map( m => (
