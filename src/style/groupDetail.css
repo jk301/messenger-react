@@ -4,6 +4,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    margin-bottom: 40px;
+}
+
+.back-but, .card-button-div > button {
+    margin-top: 10px;
+    padding: 15px;
+    font-family: inherit;
+    border-radius: 8px;
+
+    border: 1px solid black;
+}
+.back-but:hover , .card-button-div > button:hover {
+    color: grey;
 }
 
 .group-detail-content {
@@ -11,18 +25,90 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px;
+}
+.group-detail-content > h2 {
+    font-family: inherit;
+    font-size: 45px;
+
+    margin: 0;
+}
+.group-detail-content > p {
+    font-family: inherit;
+    color: grey;
+    margin: 0;
+}
+
+
+.group-image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+
+    padding-bottom: 20px;
+    width: 150%;
+    border-bottom: 1px solid grey;
+}
+
+.group-image-container > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .group-avatar {
     width: 150px;
     height: 150px;
 
-    background-color: grey;
+    border-radius: 50%;
+}
+
+.member-container {
+    display: flex;
+    flex-direction: column;
+    width: 150%;
+
+    border-bottom: 1px solid grey;
+
+    padding-bottom: 25px;
+}
+
+.member-div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.member-container > h3 {
+    text-align: center;
 }
 
 .member-card {
     display: flex;
     align-items: center;
-
     gap: 20px;
+    padding: 15px;
+
+    border: 2px solid grey;
+}
+
+.card-button-div {
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+}
+
+.del-but {
+    font-family: inherit;
+    font-size: 20px;
+    padding: 20px;
+
+    border: 2px solid black;
+    background-color: red;
+    font-weight: 900;
+}
+.del-but:hover {
+    color: white;
+    background-color: rgb(167, 3, 3);
 }
