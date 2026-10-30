@@ -76,6 +76,7 @@ function GroupDetail ({ logged }) {
 			console.log(error)
 			setError(error.message)
 		} finally {
+            setFile(null)
 			setLoading(false)
 		}
 	}
@@ -180,13 +181,39 @@ function GroupDetail ({ logged }) {
                         <img src={conv.avatarURL ?? '/public/user.jpg'} className="group-avatar" />
                         {conv.isAdmin 
                             && <form onSubmit={handleAvatar}>
+                                    {!file 
+                                        && <label htmlFor="file-input" className="file-label">
+                                                <img 
+                                                    src="/public/attach.svg" 
+                                                    className="file-icon" 
+                                                    alt="attachment button" 
+                                                />
+                                            </label>
+                                    }
+                                    {!file && <p>Select a avatar to upload (jpg, png, webp)</p>} 
                                     <input 
                                         type="file" 
+                                        id="file-input"
                                         name="avatar"
                                         accept="image/jpg, image/png, image/webp"
                                         onChange={e => setFile(e.target.files[0])}
                                     />
-                                    <button type="submit">upload</button>
+                                    {file 
+                                        && <div className="file-name-cancel-container">
+                                            <p>
+                                                {file.name}
+                                            </p>
+                                            <button 
+                                                onClick={() => { 
+                                                    setFile(null)  
+                                                    // fileInputRef.current.value = ''
+                                                }}
+                                                >
+                                                    cancel
+                                            </button> 
+                                            <button type="submit">upload</button>
+                                        </div>
+                                    }
                                 </form>
                         }
                     </div>
