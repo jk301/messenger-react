@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from "react"
 import { Link, useParams } from "react-router-dom"
 import { io } from "socket.io-client"
 
+import { useContext } from "react"
+import { PresenceContext } from "../App"
+
 import '../style/viewConv.css'
 
 function ViewConv({ logged, profile }) {
@@ -14,6 +17,8 @@ function ViewConv({ logged, profile }) {
 
     const [file, setFile] = useState(null)
     const fileInputRef = useRef(null)
+
+    const onlineIds = useContext(PresenceContext)
 
     // Fetch the conversation
     useEffect(() => {
@@ -177,6 +182,10 @@ function ViewConv({ logged, profile }) {
                         className="conv-main-avatars" 
                     />
                     <h2>{conv.other}</h2>
+                    {onlineIds.has(conv.otherId) 
+                        ? <span className="online-dot" /> 
+                        : <span className="online-dot-red" />
+                    }
                 </div>
             }
         </div>
