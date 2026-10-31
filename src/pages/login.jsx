@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
+import '../style/inputPage.css'
+
 function Login({ logged, setLogged }) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -79,22 +81,24 @@ function Login({ logged, setLogged }) {
         <h1>Login</h1>
         {error && <p>{error}</p>}
         <form onSubmit={handleLogin}>
-            <label htmlFor="username">Username</label>
-            <input 
-                type="text" 
-                id="username"
-                value={username}
-                onChange={(e) => {setUsername(e.target.value)}} 
-                required
-            />
-            <label htmlFor="password">Password</label>
-            <input 
-                type="password" 
-                id="password" 
-                value={password}
-                onChange={(e) => {setPassword(e.target.value)}}
-                required
-            />
+            <label htmlFor="username">Username
+                <input 
+                    type="text" 
+                    id="username"
+                    value={username}
+                    onChange={(e) => {setUsername(e.target.value)}} 
+                    required
+                />
+            </label>
+            <label htmlFor="password">Password
+                <input 
+                    type="password" 
+                    id="password" 
+                    value={password}
+                    onChange={(e) => {setPassword(e.target.value)}}
+                    required
+                />
+            </label>
             <button type="submit" >Login</button>
         </form>
     </div>
