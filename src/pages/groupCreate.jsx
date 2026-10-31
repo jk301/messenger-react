@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
+import '../style/inputPage.css'
+
 function GroupCreation ({ logged }) {
     const [name, setName] = useState('')
     const [error, setError] = useState(null)
@@ -49,7 +51,7 @@ function GroupCreation ({ logged }) {
         <div className="group-create">
             <form onSubmit={createGroup}>
                 <label>
-                    Group name 
+                    Group name:
                     <input 
                         type="text" 
                         value={name}
