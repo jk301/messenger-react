@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import '../style/profile.css'
 
@@ -10,6 +10,8 @@ function Profile ({ logged, profile, setProfile }) {
 	const [newEmail, setNewEmail] = useState('')
 	const [newPass, setNewPass] = useState('')
 	const [file, setFile] = useState(null)
+
+	const fileInputRef = useRef(null)
 
 	const [nameToggle, setNameToggle] = useState(false)
 	const [emailToggle, setEmailToggle] = useState(false)
@@ -74,6 +76,8 @@ function Profile ({ logged, profile, setProfile }) {
 			console.log(error)
 			setError(error.message)
 		} finally {
+			fileInputRef.current.value = ''
+			setFile(null)
 			setLoading(false)
 			setNameToggle(false)
 			setEmailToggle(false)
@@ -113,6 +117,7 @@ function Profile ({ logged, profile, setProfile }) {
 			setNameToggle(false)
 			setEmailToggle(false)
 			setPassToggle(false)
+			setNewName('')
 		}
 	}
 
@@ -149,6 +154,7 @@ function Profile ({ logged, profile, setProfile }) {
 			setNameToggle(false)
 			setEmailToggle(false)
 			setPassToggle(false)
+			setNewEmail('')
 		}
 	}
 
@@ -184,6 +190,7 @@ function Profile ({ logged, profile, setProfile }) {
 			setNameToggle(false)
 			setEmailToggle(false)
 			setPassToggle(false)
+			setNewPass('')
 		}
 	}
 
@@ -197,17 +204,43 @@ function Profile ({ logged, profile, setProfile }) {
                 ? <h2>Fetching details</h2>
                 : <div className="content">
 					<div className="img-container">
-						<img src={profile.avatarURL} className="profile-pic" />
+						<img src={profile.avatarURL ?? '/user.jpg'} className="group-avatar" />
 						<form onSubmit={handleAvatar}>
+							{!file 
+								&& <label htmlFor="file-input" className="file-label">
+										<img 
+											src="/public/attach.svg" 
+											className="file-icon" 
+											alt="attachment button" 
+										/>
+									</label>
+                            }
+							{!file && <p>Select a avatar to upload (jpg, png, webp)</p>} 
 							<input 
 								type="file" 
+								id="file-input"
 								name="avatar" 
 								accept="image/jpg,image/png,image/webp" 
 								onChange={e => setFile(e.target.files[0])}
+								ref={fileInputRef}
 							/>
-							<button type="submit">Upload</button>
+							{file 
+								&& <div className="file-name-cancel-container">
+									<p>
+										{file.name}
+									</p>
+									<button 
+										onClick={() => { 
+											setFile(null)  
+											fileInputRef.current.value = ''
+										}}
+										>
+											cancel
+									</button> 
+									<button type="submit">Upload</button>
+								</div>
+							}
 						</form>
-						
 					</div>
 					{nameToggle 
 						? <div className="change-input">
@@ -219,8 +252,11 @@ function Profile ({ logged, profile, setProfile }) {
 										required 
 										placeholder="new username here"
 									/>
-									<button type="submit">save</button>
-									<button onClick={() => setNameToggle(false)}>cancel</button>
+									<div className="change-input-but-div">	
+										<button type="submit">Save changes</button>
+										<button onClick={() => setNameToggle(false)}>cancel</button>
+									</div>
+									
 								</form>
 							</div>
 						: <div className="detail">
@@ -239,8 +275,10 @@ function Profile ({ logged, profile, setProfile }) {
 										required
 										placeholder="new email here"
 									/>
-									<button type="submit">save</button>
-									<button onClick={() => setEmailToggle(false)}>cancel</button>
+									<div className="change-input-but-div">
+										<button type="submit">Save changes</button>
+										<button onClick={() => setEmailToggle(false)}>cancel</button>
+									</div>
 								</form>
 							</div>
 						: <div className="detail">
@@ -259,18 +297,19 @@ function Profile ({ logged, profile, setProfile }) {
 										required
 										placeholder="New password here"
 									/>
-									<button type="submit">save</button>
-									<button onClick={() => setPassToggle(false)}>cancel</button>
+									<div className="change-input-but-div">
+										<button type="submit">Save changes</button>
+										<button onClick={() => setPassToggle(false)}>cancel</button>
+									</div>
 								</form>
 							</div>
-						: <div className="detail">
-							<button 
+						: <button 
 								className="pass-btn" 
 								onClick={() => setPassToggle(true)}
 							>
 								Change password
 							</button>
-							</div>
+							
 					}
                     
 					<button className="delete-btn">DELETE ACCOUNT</button>
