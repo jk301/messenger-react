@@ -73,6 +73,11 @@
     font-family: inherit;
     padding: 15px;
     border-radius: 8px;
+
+    border: 1px solid black;
+}
+.card-button-container > button:hover {
+    color: grey;
 }
 
 
