@@ -1,4 +1,14 @@
 
+.profile {
+    display: flex;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
 
 .img-container {
     display: flex;
@@ -12,6 +22,14 @@
 .img-container > button {
     font-family: inherit;
     padding: 20px;
+}
+.img-container > img {
+    margin-bottom: 10px;
+}
+.img-container > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile {
@@ -28,9 +46,54 @@
 }
 
 .detail {
+    font-family: inherit;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    gap: 20px;
+    padding: 15px;
+
+    border: 2px solid grey;
+
+    width: 130%;
+    
+    margin: 10px;
 }
+.detail > button, .pass-btn, .change-input-but-div > button {
+    margin-top: 10px;
+    padding: 15px;
+    font-family: inherit;
+    border-radius: 8px;
+
+    border: 1px solid black;
+}
+.detail > button:hover, .pass-btn:hover, .change-input-but-div > button:hover {
+    color: grey;
+}
+
+.change-input {
+    padding: 20px;
+}
+
+.change-input > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.change-input > form > input {
+    font-family: inherit;
+    font-size: 20px;
+
+    width: 150%;
+    padding: 10px;
+}
+
+.change-input-but-div {
+    display: flex;
+    gap: 10px;
+}
+
 
 .pass-btn {
     font-family: inherit;
@@ -38,11 +101,18 @@
     padding: 20px;
 }
 
+.delete-btn, .pass-btn {
+    margin-bottom: 20px;
+}
+
 .delete-btn {
     font-family: inherit;
     font-size: 20px;
-    margin-top: 30px;
     padding: 20px;
+
+    border: 2px solid black;
+    background-color: red;
+    font-weight: 900;
 }
 .delete-btn:hover {
     background-color: red;
