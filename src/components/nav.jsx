@@ -43,6 +43,7 @@ function Nav ({ logged, setLogged, profile, setProfile }) {
                     <button className="logout" onClick={handleLogout} >Logout</button>
                 </div>
                 : <div className="nav-but">
+                    <NavLink to='/' >Home</NavLink>
                     <NavLink to='/register'>Sign up</NavLink>
                     <NavLink to='/login'>Login</NavLink>
                 </div>
