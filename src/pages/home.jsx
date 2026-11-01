@@ -119,7 +119,7 @@ function Home({ logged, profile }) {
 				<div className="conv-container">
 					{showConv.length > 0 
 						? showConv.map( conv => (
-							<Link to={`conv/${conv.id}`}>
+							<Link key={conv.id} to={`conv/${conv.id}`}>
 								<div key={conv.id} className="conv-card">
 									{/* // profile image here maybe ? */}
 									<img 
