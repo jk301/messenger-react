@@ -19,7 +19,7 @@ function Nav ({ logged, setLogged, profile, setProfile }) {
                 ? <Link to={`/profile`}>
                     <div className="profile-div">
                         <img 
-                            src={profile.avatarURL ?? '/public/user.jpg'} 
+                            src={profile.avatarURL ?? '/user.jpg'} 
                             alt="profile avatar" 
                             className="avatar"
                         />
