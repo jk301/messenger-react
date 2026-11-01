@@ -46,30 +46,7 @@ function Login({ logged, setLogged }) {
             setLogged(true)
             console.log('Logged in.')
             localStorage.setItem("token", data.token)
-
-            // Profile state update 
-            // try {
-            //     const token = localStorage.getItem('token')
-            //     const res = await fetch(`${import.meta.env.VITE_API_URL}/profile`, {
-            //         headers: { Authorization: `Bearer ${token}` }
-            //     })
-
-            //     if (res.ok) {
-            //         const data = await res.json()
-            //         setProfile(data.profile)
-            //     } else if (res.status === 401) {
-            //         setError("You are not authorized for tha requested data.")
-            //     } else {
-            //         const data = await res.json()
-            //         setError(data.error || "Could not load :(")
-            //     }
-            // } catch (error) {
-            //     console.log(error)
-            //     setError(error.message)
-            // }
-
             navigate('/')
-
         } catch (err) {
             console.log(err)
             setError("Network error, try again.")
