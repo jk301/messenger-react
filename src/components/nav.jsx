@@ -6,12 +6,8 @@ import '../style/nav.css'
 function Nav ({ logged, setLogged, profile, setProfile }) {
     const navigate = useNavigate()
     function handleLogout () {
-        if (!logged) {
-            console.log('Not logged in.')
-            return 
-        }
+        if (!logged) return 
         localStorage.removeItem("token")
-        console.log('Token removed.')
         setLogged(false)
         setProfile(null)
         navigate('/')

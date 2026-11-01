@@ -27,7 +27,6 @@ function GroupCreation ({ logged }) {
             if (res.ok) {
                 const data = await res.json()
                 const group = data.group
-                console.log({group})
                 navigate(`/conv/${group.id}`)
             } else if (res.status === 401) {
                 setError("Log in to see/add friends.")

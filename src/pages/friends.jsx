@@ -56,7 +56,6 @@ function Friends({ logged }) {
 
 				if (res.ok) {
 					const data = await res.json()
-					console.log(data.friends)
                     setFriends(data.friends)
 				} else if (res.status === 401) {
 					setError("Log in to see/add friends.")
@@ -112,7 +111,6 @@ function Friends({ logged }) {
             if (res.ok) {
                 const data = await res.json()
                 const conv = data.conv
-                console.log(conv)
                 navigate(`/conv/${conv.id}`)
             } else if (res.status === 401) {
                 setError("Log in to see/add friends.")

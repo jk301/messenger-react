@@ -170,7 +170,6 @@ function GroupDetail ({ logged }) {
 
     if (error) return <div className="status"><h2>{error}</h2></div>
 
-    console.log(conv)
     return (
         <div className="group-detail">
             {loading 

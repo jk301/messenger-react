@@ -74,7 +74,7 @@ function ViewConv({ logged, profile }) {
             } ) 
         })
 
-        socket.on('connect', () => console.log('socket connected', socket.id))
+        // socket.on('connect', () => console.log('socket connected', socket.id))
 
         return () => socket.disconnect()
     }, [convId, profile])
@@ -124,9 +124,6 @@ function ViewConv({ logged, profile }) {
 
     async function handleMessage (e) {
         e.preventDefault()
-
-        console.log('message state (inside handleMessage):', JSON.stringify(message))
-
         try {
             const token = localStorage.getItem('token')
             const url = `${import.meta.env.VITE_API_URL}/conv/${convId}/message`
@@ -153,7 +150,6 @@ function ViewConv({ logged, profile }) {
             setError(error.message)
         } finally {
             setMessage('')
-            console.log('message state (inside handleMessage):', JSON.stringify(message))
         }
     }
 
@@ -163,8 +159,6 @@ function ViewConv({ logged, profile }) {
     }
     if (loading) return <div className="status"><h2>Fetching conversations..</h2></div>
 	if (error) return <div className="status"><h2>{error}</h2></div>
-
-    console.log('message state:', JSON.stringify(message))
 
   return (
     <div className="in-conv-container">

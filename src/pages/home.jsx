@@ -41,7 +41,6 @@ function Home({ logged, profile }) {
 					const data = await res.json()
 					setAllConv(data.conv)
 					setShowConv(data.conv)
-					console.log(data.conv)
 				} else if (res.status === 401) {
 					setError("Want to Start messaging? sign up & log in.")
 					setDef(true)
