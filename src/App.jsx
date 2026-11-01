@@ -91,7 +91,7 @@ function App() {
         <Route path='/friends' element={<Friends logged={logged} />} /> 
         <Route path='/create/group' element={<GroupCreation logged={logged} />} />
         <Route path='/conv/detail/:convId' element={<GroupDetail logged={logged} />} />
-        <Route path='/profile' element={<Profile logged={logged} profile={profile} setProfile={setProfile} />} />
+        <Route path='/profile' element={<Profile logged={logged} setLogged={setLogged} profile={profile} setProfile={setProfile} />} />
       </Routes>
       </PresenceContext.Provider>      
     </BrowserRouter>

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 import '../style/profile.css'
 
-function Profile ({ logged, profile, setProfile }) {
+function Profile ({ logged, setLogged, profile, setProfile }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
@@ -16,6 +17,8 @@ function Profile ({ logged, profile, setProfile }) {
 	const [nameToggle, setNameToggle] = useState(false)
 	const [emailToggle, setEmailToggle] = useState(false)
 	const [passToggle, setPassToggle] = useState(false)
+
+	const navigate = useNavigate()
 
     useEffect( () => {
         (async () => {
@@ -194,6 +197,35 @@ function Profile ({ logged, profile, setProfile }) {
 		}
 	}
 
+	async function handleDltAcc () {
+		try {
+			const token = localStorage.getItem('token')
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/profile`, {
+				method: "DELETE", 
+				headers: {
+					Authorization: `Bearer ${token}`, 
+					'Content-Type': 'application/json'
+				}, 
+			})
+
+			if (res.ok) {
+				localStorage.removeItem('token')
+				setLogged(false)
+        		setProfile(null)
+				navigate('/')
+			} else if (res.status === 401) {
+				setError("Unauthorized request")
+			} else {
+				const data = await res.json()
+				setError(data.error || "Could not load :(")
+			}   
+
+		} catch (error) {
+			console.log(error)
+			setError(error.message)
+		}
+	}
+
 
     if (!logged) return <div><h2>Need to be logged in to be able to see profile data</h2></div>
     if (error) return <div className="status"><h2>{error}</h2></div>
@@ -312,7 +344,7 @@ function Profile ({ logged, profile, setProfile }) {
 							
 					}
                     
-					<button className="delete-btn">DELETE ACCOUNT</button>
+					<button className="delete-btn" onClick={() => handleDltAcc()}>DELETE ACCOUNT</button>
                 </div>
             }
         </div>
