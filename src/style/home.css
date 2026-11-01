@@ -100,3 +100,37 @@
     font-size: 20px;
     padding: 50px;
 }
+
+.def-home {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+
+    width: 70%;
+}
+
+.def-home > h1 {
+    padding: 40px;
+    font-size: 100px;
+}
+
+.def-home > h2 {
+    font-size: 80px;
+}
+
+.def-home > h3 {
+    font-size: 60px;
+}
+
+.home-details {
+    display: flex;
+    flex-direction: column;
+}
+.home-details > h3 {
+    font-size: 30px;
+    margin: 0;
+}
+.home-details > ul > li >  p {
+    font-size: 20px;
+}
