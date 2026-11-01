@@ -163,7 +163,7 @@ function Friends({ logged }) {
                 {friends.map( f => (
                     <div key={f.reqId} className="friend-card">
                         <img 
-                            src={f.friend.avatarURL ?? '/public/user.jpg'} 
+                            src={f.friend.avatarURL ?? '/user.jpg'} 
                             className="avatars"
                         />
                         <h3>{f.friend.username}</h3> 

@@ -168,7 +168,7 @@ function ViewConv({ logged, profile }) {
                         {/* Group */}
                         
                         <img 
-                            src={conv.avatarURL ?? '/public/user.jpg'}
+                            src={conv.avatarURL ?? '/user.jpg'}
                             className="conv-main-avatars" 
                         />
                         <Link to={`/conv/detail/${convId}`}>
@@ -179,7 +179,7 @@ function ViewConv({ logged, profile }) {
                      {/* direct conv */}
                     {/* profile pic here */}
                     <img 
-                        src={conv.otherURL ?? '/public/user.jpg'}
+                        src={conv.otherURL ?? '/user.jpg'}
                         className="conv-main-avatars" 
                     />
                     <h2>{conv.other}</h2>
@@ -201,7 +201,7 @@ function ViewConv({ logged, profile }) {
                                     ? ''
                                     :  <div className="profile-small">
                                             <img 
-                                                src={ m.sender.avatarURL ?? '/public/user.jpg'} 
+                                                src={ m.sender.avatarURL ?? '/user.jpg'} 
                                                 className="msg-avatars" 
                                             />
                                             {conv.type === 'DIRECT' 
@@ -228,7 +228,7 @@ function ViewConv({ logged, profile }) {
         </div>
         <form className="message-input-form" onSubmit={ file ? handleUpload : handleMessage}>
             <label htmlFor="file-input" className="file-label">
-                <img src="/public/attach.svg" className="file-icon" alt="attachment button" />
+                <img src="/attach.svg" className="file-icon" alt="attachment button" />
             </label>
             <input
                 id="file-input"

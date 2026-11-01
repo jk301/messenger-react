@@ -241,7 +241,7 @@ function Profile ({ logged, setLogged, profile, setProfile }) {
 							{!file 
 								&& <label htmlFor="file-input" className="file-label">
 										<img 
-											src="/public/attach.svg" 
+											src="/attach.svg" 
 											className="file-icon" 
 											alt="attachment button" 
 										/>

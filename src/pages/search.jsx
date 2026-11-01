@@ -146,7 +146,7 @@ function Search () {
                         {result.map( user => (
                             <div className="result-card" key={user.id}>
                                 <img 
-                                    src={user.avatarURL ?? '/public/user.jpg'} 
+                                    src={user.avatarURL ?? '/user.jpg'} 
                                     className="avatars"
                                 />
                                 <h2>{user.username}</h2>
@@ -185,7 +185,7 @@ function Search () {
                                             className="group-card"
                                         >
                                             <img 
-                                                src={g.avatarURL ?? '/public/user.jpg'} 
+                                                src={g.avatarURL ?? '/user.jpg'} 
                                                 className="avatar"     
                                             />
                                             <h3>{g.name}</h3>

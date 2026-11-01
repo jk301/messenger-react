@@ -181,13 +181,13 @@ function GroupDetail ({ logged }) {
                         >go back
                     </button>
                     <div className="group-image-container">
-                        <img src={conv.avatarURL ?? '/public/user.jpg'} className="group-avatar" />
+                        <img src={conv.avatarURL ?? '/user.jpg'} className="group-avatar" />
                         {conv.isAdmin 
                             && <form onSubmit={handleAvatar}>
                                     {!file 
                                         && <label htmlFor="file-input" className="file-label">
                                                 <img 
-                                                    src="/public/attach.svg" 
+                                                    src="/attach.svg" 
                                                     className="file-icon" 
                                                     alt="attachment button" 
                                                 />
@@ -228,7 +228,7 @@ function GroupDetail ({ logged }) {
                             {conv.participants.map( p => (
                                 <div className="member-card">
                                     <img 
-                                        src={p.user.avatarURL ?? '/public/user.jpg'} 
+                                        src={p.user.avatarURL ?? '/user.jpg'} 
                                         className="avatars"
                                     />
                                     <h4>{p.user.username}</h4>

@@ -127,7 +127,7 @@ function Home({ logged, profile }) {
 												? conv.avatarURL
 												: conv.otherURL 
 													? conv.otherURL
-													: '/public/user.jpg'
+													: '/user.jpg'
 											} 
 										className="home-avatars" 
 									/>
